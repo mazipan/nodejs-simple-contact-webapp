@@ -1,0 +1,59 @@
+extends layout
+
+block content
+
+    md-progress-linear(md-mode="indeterminate", ng-show="isLoading")  
+    md-toolbar(layout='row')
+      md-button.menu(hide-gt-sm='', ng-click='ul.toggleList()', aria-label='Show User List')
+        md-icon(md-svg-icon='menu')
+      div(class="md-toolbar-tools")   
+        h1 Simple Contact WebApp
+        div(style="margin: 0 20px;")
+        md-input-container(md-no-float, class="md-block", style="padding-top: 20px;")
+          input(ng-model="keyword" type="text" placeholder="Search")
+          md-icon(md-svg-src="css/svg/search.svg" style="display:inline-block;margin-top: 20px;")
+  
+    div(flex='', layout='row')
+      md-sidenav.md-whiteframe-z2(ng-click='ul.toggleList()', md-is-locked-open="$mdMedia('gt-sm')", md-component-id='left')
+        md-toolbar
+          div(class="md-toolbar-tools")   
+            h3 Contact List
+            span(flex)       
+            md-button.menu(class="md-button" aria-label="Refresh", ng-click='ul.doRefresh()')
+              md-icon(md-svg-icon="refresh")
+        md-list
+          md-list-item(ng-repeat='it in ul.users | filter:keyword:name')
+            md-button(ng-click='ul.selectUser(it)', ng-class="{'selected' : it === ul.selected }")
+              md-icon.avatar(md-svg-icon='{{it.avatar}}')
+              |                   {{it.name}}
+
+      md-content#content(flex='')
+        md-icon.avatar(md-svg-icon='{{ul.selected.avatar}}')
+        h2 {{ul.selected.name}}
+        p Phone Number : {{ul.selected.phone}}
+        p(ng-if="ul.selected.phone1 !== ''") Phone Number : {{ul.selected.phone1}}
+        p(ng-if="ul.selected.phone2 !== ''") Phone Number : {{ul.selected.phone2}}
+        p(ng-if="ul.selected.phone3 !== ''") Phone Number : {{ul.selected.phone3}}
+        p Email : {{ul.selected.email}}
+        p(ng-if="ul.selected.email1 !== ''") Email : {{ul.selected.email1}}
+        p(ng-if="ul.selected.email2 !== ''") Email : {{ul.selected.email2}}
+        p(ng-if="ul.selected.email3 !== ''") Email : {{ul.selected.email3}}
+        p Address : {{ul.selected.address}}
+
+        md-fab-speed-dial(md-open='isOpen', md-direction='left', class='md-fling float-r-button')
+          md-fab-trigger
+            md-button.md-fab.md-warn(aria-label='SpeedDial')
+              md-icon(md-svg-icon='menu', aria-label='SpeedDial')
+          md-fab-actions
+            md-button.md-fab.md-raised.md-mini(aria-label='Add', class="md-fab md-primary", ng-click='ul.makeContact(true)', ng-if='isAuthenticated')
+              md-icon(md-svg-icon='add', aria-label='Add')
+            md-button.md-fab.md-raised.md-mini(aria-label='Edit', class="md-fab md-primary", ng-click='ul.makeContact(false)', ng-if='isAuthenticated')
+              md-icon(md-svg-icon='edit', aria-label='Edit')
+            md-button.md-fab.md-raised.md-mini(aria-label='Remove', class="md-fab md-primary", ng-click='ul.removeUser()', ng-if='isAuthenticated')
+              md-icon(md-svg-icon='remove', aria-label='Remove')
+            md-button.md-fab.md-raised.md-mini(aria-label='Key', class="md-fab md-primary", ng-click='ul.showAuthPrompt()', ng-if='!isAuthenticated')
+              md-icon(md-svg-icon='key', aria-label='Key')
+
+          
+
+

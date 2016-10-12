@@ -1,0 +1,297 @@
+# Created by irfan.maulana on 08/16/2016.
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Contact API Documentation
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /api/authenticate:
+    x-swagger-router-controller: auth
+    post:
+      description: Get auth token
+      parameters:
+        - name: user
+          description: Get auth token based on login information
+          in: body
+          required: true
+          schema: 
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/TokenResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse"
+    
+  /api/authenticate/addnew:
+    x-swagger-router-controller: auth
+    post:
+      description: Insert new user to get token
+      parameters:
+        - name: user
+          description: User will be added
+          in: body
+          required: true
+          schema: 
+            $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            properties:
+              sucess:
+                type: boolean
+                default: true
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse"
+    
+  /api/contacts:
+    x-swagger-router-controller: contacts
+
+    get:
+      description: Returns list of all Contacts
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ContactsResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse" 
+
+    post:
+      description: Insert new data Contact
+      parameters:
+        - name: contact
+          description: Contact will be added
+          in: body
+          required: true
+          schema: 
+            $ref: "#/definitions/ContactNoId"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ContactResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse"
+            
+  /api/contacts/{id}:
+    x-swagger-router-controller: contacts
+
+    get:
+      description: Returns contact by id
+      parameters:
+        - name: id
+          description: Contact id will be select
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ContactResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse"
+
+    put:
+      description: Update data contact by id
+      parameters:
+        - name: id
+          description: Contact id will be updated
+          type: number
+          in: path
+          required: true          
+        - name: contact
+          description: Contact information will be updated
+          in: body
+          required: true
+          schema: 
+            $ref: "#/definitions/ContactNoId"
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ContactResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse"
+
+    delete:
+      description: Delete data contact by id
+      parameters:
+        - name: id
+          description: Contact id will be deleted
+          type: number
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/ContactResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/GeneralErrorResponse"
+
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  
+  User:
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+  
+  TokenResponse:
+    required:
+      - result
+      - token
+    properties:
+      result:
+        type: boolean
+        default: true
+      token:
+        type: string
+        
+  Contact:
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      email1:
+        type: string
+      email2:
+        type: string
+      email3:
+        type: string
+      phone:
+        type: string
+      phone1:
+        type: string
+      phone2:
+        type: string
+      phone3:
+        type: string
+      address:
+        type: string
+      company:
+        type: string
+      modified:
+        type: string
+      token:
+        type: string
+        
+  ContactNoId:
+    properties:
+      name:
+        type: string
+      title:
+        type: string
+      email:
+        type: string
+      email1:
+        type: string
+      email2:
+        type: string
+      email3:
+        type: string
+      phone:
+        type: string
+      phone1:
+        type: string
+      phone2:
+        type: string
+      phone3:
+        type: string
+      address:
+        type: string
+      company:
+        type: string
+      token:
+        type: string
+        
+  ContactsResponse:
+    required:
+      - result
+      - contacts
+    properties:
+      result:
+        type: boolean
+        default: true
+      contacts:
+        type: array
+        items:
+          $ref: "#/definitions/Contact"
+          
+  ContactResponse:
+    required:
+      - result
+      - contact
+    properties:
+      result:
+        type: boolean
+        default: true
+      contact:
+        $ref: "#/definitions/Contact"
+          
+  GeneralErrorResponse:
+    required:
+      - result
+      - errorDesc
+    properties:
+      result:
+        type: boolean
+        default: false
+      errorDesc:
+        type: string
+        

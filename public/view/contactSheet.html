@@ -1,0 +1,50 @@
+<md-bottom-sheet class="md-list md-has-header">
+
+    <md-subheader>
+        Add new Contact :
+    </md-subheader>
+
+    <md-content class="md-no-momentum">
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/person.svg" class="name"></md-icon>
+          <input ng-model="user.name" type="text" placeholder="Name (required)" ng-required="true">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/phone.svg"></md-icon>
+          <input ng-model="user.phone" type="text" placeholder="Phone Number">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/phone.svg"></md-icon>
+          <input ng-model="user.phone1" type="text" placeholder="Phone Number 1">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/phone.svg"></md-icon>
+          <input ng-model="user.phone2" type="text" placeholder="Phone Number 2">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/mail.svg" class="email"></md-icon>
+          <input ng-model="user.email" type="email" placeholder="Email">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/mail.svg" class="email"></md-icon>
+          <input ng-model="user.email1" type="email" placeholder="Email 1">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-icon md-svg-src="css/svg/address.svg"></md-icon>
+          <input ng-model="user.address" type="text" placeholder="Address">
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <md-button class="md-raised md-primary" ng-click="saveOrUpdateUser()">Save</md-button>
+        </md-input-container>
+
+    </md-content>
+
+</md-bottom-sheet>
